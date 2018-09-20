@@ -5,12 +5,15 @@ const ADD_POST = 'ADD_POST'
 const UPDATE_POST = 'UPDATE_POST'
 const DELETE_POST = 'DELETE_POST'
 
-export const getPosts = () => {
+export const getPosts = (cb) => {
     return (dispatch) => {
-        axios.get('/api/posts')
-        .then( res => dispatch({ type: POSTS, posts: res.data }) )
+      axios.get('/api/posts')
+        .then( res => { 
+          dispatch({ type: POSTS, posts: res.data }) 
+          cb()
+        })
     }
-}
+  }
 
 export const addPost = (post) => {
     return (dispatch) => {
@@ -21,7 +24,7 @@ export const addPost = (post) => {
 
 export const updatePost = (post) => {
     return (dispatch) => {
-        axios.put(`/api/posts/${id}`)
+        axios.put(`/api/posts/${post.id}`, { post })
         .then( res => dispatch({ type: UPDATE_POST, post: res.data}) )
     }
 }
